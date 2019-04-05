@@ -1,0 +1,85 @@
+@import 'normalize.css';
+
+@function strip-unit($value)
+{
+    @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size)
+{
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-font-size);
+    $u4: unit($max-font-size);
+
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4
+    {
+        &
+        {
+            font-size: $min-font-size;
+            @media screen and (min-width: $min-vw)
+            {
+                font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+            }
+            @media screen and (min-width: $max-vw)
+            {
+                font-size: $max-font-size;
+            }
+        }
+    }
+}
+
+body
+{
+    @include fluid-type(240px, 960px, 12px, 12px * 3.5);
+
+    background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+}
+
+#wrapper
+{
+    position: relative;
+    top: 50%;
+    left: 50%;
+
+    display: none;
+
+    padding: 1em;
+
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+
+    background-color: white;
+
+    &:hover #label:after
+    {
+        width: 100%;
+    }
+}
+
+#label
+{
+    font-family: Ubuntu,Optima,Trebuchet MS,-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size: 1em;
+
+    position: relative;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    color: #fd868c;
+    &:after
+    {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        width: 0;
+
+        content: '';
+        transition: .4s;
+
+        border-bottom: .05em solid currentColor;
+    }
+}

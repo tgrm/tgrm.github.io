@@ -1,0 +1,32 @@
+{
+  "name": "tg",
+  "version": "1.0.0",
+  "description": "Аналог t.me через github pages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Taraflex/tg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Taraflex/tg/issues"
+  },
+  "homepage": "https://github.com/Taraflex/tg#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.5.0",
+    "cssnano": "^4.1.10",
+    "normalize.css": "^8.0.1",
+    "postcss": "^7.0.14",
+    "postcss-import": "^12.0.1",
+    "rollup": "^1.8.0",
+    "rollup-plugin-bundle-html": "^0.1.5",
+    "rollup-plugin-sass": "^1.2.2",
+    "rollup-plugin-terser": "^4.0.4",
+    "web-resource-inliner": "^4.3.1"
+  }
+}
