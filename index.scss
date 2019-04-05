@@ -29,16 +29,23 @@
     }
 }
 
+html
+{
+    height: 100%;
+}
+
 body
 {
     @include fluid-type(240px, 960px, 12px, 12px * 3.5);
+
+    min-height: 100%;
 
     background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
 }
 
 #wrapper
 {
-    position: relative;
+    position: absolute;
     top: 50%;
     left: 50%;
 
