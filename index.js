@@ -1,13 +1,14 @@
 import './index.scss';
 
-if (document.getElementById('label').textContent = window.location.hash.slice(1).replace(/^https?:\/\//i, '')) {
+var label = location.hash.replace(/^#(http:|https:)?\/*/i, '').replace(/^(t\.me)?\/*/i, '');;
+if (label) {
+    document.getElementById('label').textContent = 't.me/' + label;
 
     /** @type {HTMLAnchorElement} */
     var link;
     //@ts-ignore
     link = document.getElementById('wrapper');
-    link.href = window.location.hash.slice(1);
-
+    link.href = 'http://t.me/' + label
     var path = link.pathname.split('/', 3);
     var str = '';
 
@@ -34,10 +35,7 @@ if (document.getElementById('label').textContent = window.location.hash.slice(1)
             }
     }
 
-    link.href = str || '#';
+    link.href = str;
     link.style.display = 'inline-block';
-
-    if (str) {
-        window.location.href = str;
-    }
+    location.href = str;
 }
