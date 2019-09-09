@@ -1,13 +1,14 @@
-import html from 'rollup-plugin-bundle-html';
-import sass from 'rollup-plugin-sass';
-import { terser } from 'rollup-plugin-terser';
-import fs from 'fs';
-import wi from 'web-resource-inliner';
 import autoprefixer from 'autoprefixer';
+import crypto from 'crypto';
+import cssnano from 'cssnano';
+import fs from 'fs';
 import postcss from 'postcss';
 import cssImport from 'postcss-import';
-import cssnano from 'cssnano';
-import crypto from 'crypto';
+import html from 'rollup-plugin-bundle-html';
+import sass from 'rollup-plugin-sass';
+import serve from 'rollup-plugin-serve';
+import { terser } from 'rollup-plugin-terser';
+import wi from 'web-resource-inliner';
 
 export default {
     input: 'index.js',
@@ -18,15 +19,14 @@ export default {
     plugins: [
         sass({
             output: true,
-            processor: css => postcss([
+            processor: css => postcss(
                 cssImport(),
-                autoprefixer({
-                    browsers: ['last 2 version', '> 0.2%', 'ie >= 11']
-                }),
+                //@ts-ignore
+                autoprefixer(),
                 cssnano({
                     preset: ['default', { discardComments: { removeAll: true } }]
                 }),
-            ]).process(css).then(result => result.css)
+            ).process(css, { from: undefined }).then(({ css }) => css)
         }),
         terser(),
         html({
@@ -41,10 +41,19 @@ export default {
                         console.error(err)
                     } else {
                         fs.writeFileSync('index.html', content);
-                        fs.writeFileSync('app.appcache', 'CACHE MANIFEST\n# ' + crypto.createHash('md5').update(content).digest('base64'));
+                        fs.writeFileSync('app.appcache', 'CACHE MANIFEST\n# ' + crypto.createHash('md5').update(content).digest('base64').replace(/=/g, ''));
                     }
                 });
             }
-        }
+        },
+        serve({
+            open: true,
+            openPage: '/index.html',
+            verbose: true,
+            contentBase: '',
+            historyApiFallback: false,
+            host: '127.0.0.1',
+            port: 3215,
+        })
     ]
 };
