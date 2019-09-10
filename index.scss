@@ -1,41 +1,35 @@
 @import 'normalize.css';
 
-@function strip-unit($value)
-{
+@function strip-unit($value) {
     @return $value / ($value * 0 + 1);
 }
 
-@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size)
-{
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
     $u1: unit($min-vw);
     $u2: unit($max-vw);
     $u3: unit($min-font-size);
     $u4: unit($max-font-size);
 
-    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4
-    {
-        &
-        {
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+        & {
             font-size: $min-font-size;
-            @media screen and (min-width: $min-vw)
-            {
+
+            @media screen and (min-width: $min-vw) {
                 font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
             }
-            @media screen and (min-width: $max-vw)
-            {
+
+            @media screen and (min-width: $max-vw) {
                 font-size: $max-font-size;
             }
         }
     }
 }
 
-html
-{
+html {
     height: 100%;
 }
 
-body
-{
+body {
     @include fluid-type(240px, 960px, 12px, 12px * 3.5);
 
     min-height: 100%;
@@ -43,8 +37,7 @@ body
     background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
 }
 
-#wrapper
-{
+#wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -58,14 +51,12 @@ body
 
     background-color: white;
 
-    &:hover #label:after
-    {
+    &:hover #label:after {
         width: 100%;
     }
 }
 
-#label
-{
+#label {
     font-family: Ubuntu,Optima,Trebuchet MS,-apple-system,BlinkMacSystemFont,sans-serif;
     font-size: 1em;
 
@@ -76,8 +67,8 @@ body
     text-align: center;
 
     color: #fd868c;
-    &:after
-    {
+
+    &:after {
         position: absolute;
         bottom: 0;
         left: 0;
