@@ -1,7 +1,7 @@
 import autoprefixer from 'autoprefixer';
 import crypto from 'crypto';
 import cssnano from 'cssnano';
-import fs from 'fs';
+import { promises as fs, readFileSync } from 'fs';
 import postcss from 'postcss';
 import cssImport from 'postcss-import';
 import html from 'rollup-plugin-bundle-html';
@@ -13,7 +13,7 @@ import wi from 'web-resource-inliner';
 export default {
     input: 'index.js',
     output: {
-        format: 'iife',
+        format: 'esm',
         file: 'dist/bundle.js',
     },
     plugins: [
@@ -28,27 +28,37 @@ export default {
                 }),
             ).process(css, { from: undefined }).then(({ css }) => css)
         }),
-        terser(),
+        terser({
+            ecma: 5,
+            module: true,
+            toplevel: true,
+            mangle: {
+                reserved: ['location', 'document']
+            }
+        }),
         html({
             template: 'template.html',
             filename: 'index.html',
             inject: 'body'
         }),
         {
-            writeBundle() {
-                wi.html({ fileContent: fs.readFileSync('./dist/index.html', 'utf-8'), relativeTo: './dist' }, function (err, content) {
+            writeBundle: () => new Promise((resolve, reject) => {
+                wi.html({ fileContent: readFileSync('./dist/index.html', 'utf-8'), relativeTo: './dist' }, async (err, content) => {
                     if (err) {
-                        console.error(err)
+                        reject(err)
                     } else {
-                        fs.writeFileSync('index.html', content);
-                        fs.writeFileSync('app.appcache', 'CACHE MANIFEST\n# ' + crypto.createHash('md5').update(content).digest('base64').replace(/=/g, ''));
+                        await Promise.all([
+                            fs.writeFile('index.html', content),
+                            fs.writeFile('app.appcache', 'CACHE MANIFEST\n# ' + crypto.createHash('md5').update(content).digest('base64').replace(/=/g, ''))
+                        ]);
+                        resolve();
                     }
                 });
-            }
+            })
         },
         serve({
             open: true,
-            openPage: '/index.html',
+            openPage: '/index.html#taraflex',
             verbose: true,
             contentBase: '',
             historyApiFallback: false,
