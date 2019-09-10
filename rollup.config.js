@@ -8,6 +8,7 @@ import html from 'rollup-plugin-bundle-html';
 import sass from 'rollup-plugin-sass';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
+import uncss from 'uncss';
 import wi from 'web-resource-inliner';
 
 export default {
@@ -23,10 +24,17 @@ export default {
                 cssImport(),
                 //@ts-ignore
                 autoprefixer(),
-                cssnano({
-                    preset: ['default', { discardComments: { removeAll: true } }]
-                }),
-            ).process(css, { from: undefined }).then(({ css }) => css)
+                cssnano({ preset: ['advanced', { discardComments: { removeAll: true } }] }),
+            ).process(css, { from: undefined }).then(c => new Promise((resolve, reject) => (
+                //@ts-ignore
+                uncss(readFileSync(__dirname + '/template.html', 'utf8'), { raw: c.css }, (err, output) => {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(output)
+                    }
+                })
+            )))
         }),
         terser({
             ecma: 5,
@@ -56,7 +64,7 @@ export default {
                 });
             })
         },
-        serve({
+        process.env.ROLLUP_WATCH && serve({
             open: true,
             openPage: '/index.html#taraflex',
             verbose: true,
