@@ -1,5 +1,11 @@
 php_flag engine off
 RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_URI} /tg/app.appcache
+RewriteRule . app.appcache [L]
+
+RewriteCond %{REQUEST_URI} /tg/f.ico
+RewriteRule . f.ico [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.html [L]
