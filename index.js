@@ -1,6 +1,10 @@
 import './index.scss';
 
-var label = location.hash.replace(/^#(http:|https:)?\/*/i, '').replace(/^(t\.me)?\/*/i, '');;
+var label = [location.pathname, location.hash].map(function (v) {
+    return v.slice(1)
+        .replace(/^(http:|https:)?\/*/i, '')
+        .replace(/^(t\.me)?\/*/i, '');
+}).filter(Boolean)[0];
 if (label) {
     document.getElementById('label').textContent = 't.me/' + label;
 
