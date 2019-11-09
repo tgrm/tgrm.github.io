@@ -1,5 +1,5 @@
 import autoprefixer from 'autoprefixer';
-import crypto from 'crypto';
+import { promisify } from 'util';
 import cssnano from 'cssnano';
 import { promises as fs, readFileSync } from 'fs';
 import postcss from 'postcss';
@@ -10,6 +10,8 @@ import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
 import uncss from 'uncss';
 import wi from 'web-resource-inliner';
+
+const wri = promisify(wi.html);
 
 const template = `<html><head><meta charset="UTF-8"><link rel="icon" type="image/png" href="data:image/png;base64,${readFileSync('./tg.png').toString('base64')}"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex,nofollow"></head><body><a id="wrapper" href="#"><span id="label"></span></a></body></html>`;
 
@@ -52,28 +54,17 @@ export default {
             inject: 'body'
         }),
         {
-            writeBundle: () => new Promise((resolve, reject) => {
-                wi.html({
-                    fileContent: readFileSync('./dist/index.html', 'utf-8').replace('<html>', '<html manifest="/app.appcache">'),
+            async writeBundle() {
+                await fs.writeFile('404.html', await wri({
+                    fileContent: readFileSync('./dist/index.html', 'utf-8'),
                     relativeTo: './dist',
                     images: true
-                }, async (err, content) => {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        await Promise.all([
-                            fs.writeFile('index.html', content),
-                            fs.writeFile('app.appcache', 'CACHE MANIFEST\n# ' + crypto.createHash('md5').update(content).digest('base64').replace(/=/g, ''))
-                        ]);
-                        resolve();
-                    }
-                });
-            })
+                }));
+            }
         },
         process.env.ROLLUP_WATCH && serve({
             open: true,
-            openPage: '/#taraflex',
-            verbose: true,
+            openPage: '/404.html#taraflex',
             contentBase: '',
             historyApiFallback: false,
             host: '127.0.0.1',

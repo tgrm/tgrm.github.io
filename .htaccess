@@ -1,5 +1,4 @@
 php_flag engine off
 RewriteEngine on
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.html [L]
+RewriteRule . 404.html [L]
