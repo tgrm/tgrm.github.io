@@ -1,6 +1,6 @@
 # tg
 Аналог t.me через github pages
 
-Просто добавьте перед https://t.me/... ссылку https://taraflex.github.io/tg/#
+Просто замените https://t.me/ на https://tgrm.github.io/#
 
-Должно получиться что-то в стиле https://taraflex.github.io/tg/#https://t.me/taraflex
+Должно получиться что-то в стиле https://tgrm.github.io/#taraflex

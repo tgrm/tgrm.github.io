@@ -54,7 +54,7 @@ export default {
         {
             writeBundle: () => new Promise((resolve, reject) => {
                 wi.html({
-                    fileContent: readFileSync('./dist/index.html', 'utf-8').replace('<html>', '<html manifest="/tg/app.appcache">'),
+                    fileContent: readFileSync('./dist/index.html', 'utf-8').replace('<html>', '<html manifest="/app.appcache">'),
                     relativeTo: './dist',
                     images: true
                 }, async (err, content) => {
@@ -72,7 +72,7 @@ export default {
         },
         process.env.ROLLUP_WATCH && serve({
             open: true,
-            openPage: '/index.html#taraflex',
+            openPage: '/#taraflex',
             verbose: true,
             contentBase: '',
             historyApiFallback: false,
