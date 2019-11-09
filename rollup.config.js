@@ -11,6 +11,8 @@ import { terser } from 'rollup-plugin-terser';
 import uncss from 'uncss';
 import wi from 'web-resource-inliner';
 
+const template = `<html><head><meta charset="UTF-8"><link rel="icon" type="image/png" href="data:image/png;base64,${readFileSync('./tg.png').toString('base64')}"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex,nofollow"></head><body><a id="wrapper" href="#"><span id="label"></span></a></body></html>`;
+
 export default {
     input: 'index.js',
     output: {
@@ -27,7 +29,7 @@ export default {
                 cssnano({ preset: ['advanced', { discardComments: { removeAll: true } }] }),
             ).process(css, { from: undefined }).then(c => new Promise((resolve, reject) => (
                 //@ts-ignore
-                uncss(readFileSync(__dirname + '/template.html', 'utf8'), { raw: c.css }, (err, output) => {
+                uncss(template, { raw: c.css }, (err, output) => {
                     if (err) {
                         reject(err)
                     } else {
@@ -45,13 +47,17 @@ export default {
             }
         }),
         html({
-            template: 'template.html',
+            template,
             filename: 'index.html',
             inject: 'body'
         }),
         {
             writeBundle: () => new Promise((resolve, reject) => {
-                wi.html({ fileContent: readFileSync('./dist/index.html', 'utf-8'), relativeTo: './dist' }, async (err, content) => {
+                wi.html({
+                    fileContent: readFileSync('./dist/index.html', 'utf-8').replace('<html>', '<html manifest="/tg/app.appcache">'),
+                    relativeTo: './dist',
+                    images: true
+                }, async (err, content) => {
                     if (err) {
                         reject(err)
                     } else {
