@@ -13,7 +13,48 @@ import wi from 'web-resource-inliner';
 
 const wri = promisify(wi.html);
 
-const template = `<html><head><meta charset="UTF-8"><link rel="icon" type="image/png" href="data:image/png;base64,${readFileSync('./tg.png').toString('base64')}"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex,nofollow"></head><body><a id="wrapper" href="#"><span id="label"></span></a></body></html>`;
+const template = `<html><head><meta charset="UTF-8"><link rel="icon" type="image/png" href="data:image/png;base64,${readFileSync('./tg.png').toString('base64')}"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex,nofollow"></head><body> <div class="wrapper"> <div class="main"> <h2 id="linkName"></h2> <a id="linkURL" href="#">Открыть</a> </div> <h1><a href="https://github.com/akseonowww/tme.github.io" target="_blank">tme.github.io</a></h1>  </div> </body></html>`;
+
+{/* 
+
+<div class="wrapper">
+	<div class="main">
+		<h2 id="linkName"></h2>
+		<a id="linkURL" href="#">Открыть</a>
+	</div>
+	<h1>
+        <a href="https://github.com/akseonowww/tme.github.io" target="_blank">
+            tme.github.io
+        </a>
+    </h1> 
+</div>
+
+*/}
+
+// <!DOCTYPE html>
+// <html lang="ru">
+// <head>
+//     <title>Telegram</title>
+//     <meta charset="UTF-8" />
+
+//     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png" />
+//     <!-- 180x180 - ставим первым для safari -->
+//     <link rel="icon" href="./images/favicon.ico" sizes="any" />
+//     <!-- 32x32 -->
+//     <link rel="icon" href="./images/icon.svg" type="image/svg+xml" />
+//     <link rel="manifest" href="./manifest.webmanifest" />
+//     <link rel="yandex-tableau-widget" href="./tableau.json">
+
+//     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+//     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+//     <meta name="robots" content="noindex,nofollow" />
+// <body>
+//     <a id="wrapper" href="#">
+//         <span id="label">
+//         </span>
+//     </a>
+// </body>
+// </html>`;
 
 export default {
     input: 'index.js',

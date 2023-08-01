@@ -1,41 +1,41 @@
 {
-  "name": "tg",
-  "version": "1.0.2",
-  "description": "Аналог t.me через github pages",
-  "main": "index.js",
-  "scripts": {
-    "start": "rollup -c --watch",
-    "build": "rollup -c"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tgrm/tgrm.github.io.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tgrm/tgrm.github.io/issues"
-  },
-  "homepage": "https://github.com/tgrm/tgrm.github.io",
-  "devDependencies": {
-    "autoprefixer": "^9.7.1",
-    "cssnano": "^4.1.10",
-    "cssnano-preset-advanced": "^4.0.7",
-    "normalize.css": "^8.0.1",
-    "postcss": "^7.0.21",
-    "postcss-import": "^12.0.1",
-    "rollup": "^1.26.4",
-    "rollup-plugin-bundle-html": "^0.1.5",
-    "rollup-plugin-sass": "^1.2.2",
-    "rollup-plugin-serve": "^1.0.1",
-    "rollup-plugin-terser": "^5.1.2",
-    "uncss": "^0.17.2",
-    "web-resource-inliner": "^4.3.3"
-  },
-  "browserslist": [
-    "last 2 version",
-    "> 0.2%",
-    "ie >= 11"
-  ]
+   "name": "tme",
+   "version": "1.0.3",
+   "description": "Telergam links for Russian",
+   "main": "index.js",
+   "scripts": {
+      "start": "rollup -c --watch",
+      "build": "rollup -c"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/tgrm/tgrm.github.io.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/tgrm/tgrm.github.io/issues"
+   },
+   "homepage": "https://github.com/tgrm/tgrm.github.io",
+   "devDependencies": {
+      "autoprefixer": "^9.7.1",
+      "cssnano": "^4.1.10",
+      "cssnano-preset-advanced": "^4.0.7",
+      "normalize.css": "^8.0.1",
+      "postcss": "^7.0.21",
+      "postcss-import": "^12.0.1",
+      "rollup": "^1.26.4",
+      "rollup-plugin-bundle-html": "^0.1.5",
+      "rollup-plugin-sass": "^1.2.2",
+      "rollup-plugin-serve": "^1.0.1",
+      "rollup-plugin-terser": "^5.1.2",
+      "uncss": "^0.17.2",
+      "web-resource-inliner": "^4.3.3"
+   },
+   "browserslist": [
+      "last 2 version",
+      "> 0.2%",
+      "ie >= 11"
+   ]
 }

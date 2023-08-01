@@ -1,83 +1,129 @@
-@import 'normalize.css';
+@import "normalize.css";
 
-@function strip-unit($value) {
-    @return $value / ($value * 0 + 1);
+:root {
+   --second-text-color: #7d7f81;
+   --text-color: #fff;
+   --accent-btn-color: #1c93e3;
+   --body-bg: #000;
+   --box-bg: #1e1e1e;
+   --box-bg-blured: rgba(34, 34, 34, 0.84);
+   --tme-logo-color: #fff;
+   --accent-link-color: #3ca1eb;
+   --accent-color-hover: #1a8ad5;
 }
 
-@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
-    $u1: unit($min-vw);
-    $u2: unit($max-vw);
-    $u3: unit($min-font-size);
-    $u4: unit($max-font-size);
+@-webkit-keyframes bg-move {
+   0% {
+      background-position: -500px 0;
+   }
+   100% {
+      background-position: 1000px 0;
+   }
+}
+@keyframes bg-move {
+   0% {
+      background-position: -500px 0;
+   }
+   100% {
+      background-position: 1000px 0;
+   }
+}
 
-    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
-        & {
-            font-size: $min-font-size;
-
-            @media screen and (min-width: $min-vw) {
-                font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
-            }
-
-            @media screen and (min-width: $max-vw) {
-                font-size: $max-font-size;
-            }
-        }
-    }
+* {
+   box-sizing: border-box;
+   font-family: sans-serif;
 }
 
 html {
-    height: 100%;
+   font-size: 10px;
 }
 
 body {
-    @include fluid-type(240px, 960px, 12px, 12px * 3.5);
+   min-height: 100%;
+   margin: 0;
 
-    min-height: 100%;
+   background: var(--body-bg);
 
-    background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+   font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica,
+      Verdana, sans-serif;
 }
 
-#wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    display: none;
-
-    padding: 1em;
-
-    transform: translate(-50%, -50%);
-    text-decoration: none;
-
-    background-color: white;
-
-    &:hover #label:after {
-        width: 100%;
-    }
+.wrapper {
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   width: 100%;
+   height: 100%;
+   padding-top: 32px;
 }
 
-#label {
-    font-family: Ubuntu,Optima,Trebuchet MS,-apple-system,BlinkMacSystemFont,sans-serif;
-    font-size: 1em;
+.main {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: 32px 64px 28px;
+   max-width: 400px;
+   background: var(--box-bg);
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   border-radius: 16px;
+   transition: all 0.15s ease 0.15s;
+   height: fit-content;
+}
 
-    position: relative;
+h1 {
+   font-size: 14px;
+   line-height: 16px;
+   text-align: center;
+   font-weight: 600;
+   margin: 20px 0;
+   color: var(--second-text-color);
+   vertical-align: middle;
+}
 
-    box-sizing: border-box;
+h1 a {
+   color: var(--second-text-color);
+}
 
-    text-align: center;
+h2 {
+   text-align: center;
+   color: var(--text-color);
+   margin-bottom: 24px;
+   margin-top: 0;
+   font-size: 24px;
+}
 
-    color: #fd868c;
+a#linkURL {
+   font-size: 16px;
+   line-height: 17px;
+	letter-spacing: .7;
+   font-size: 14px;
+   font-weight: bold;
+   -webkit-font-smoothing: antialiased;
+   font-family: "Roboto", sans-serif;
+   color: #fff;
+   border-radius: 50px;
+   overflow: hidden;
+   display: inline-block;
+   padding: 13px 24px;
+   height: 42px;
+   text-decoration: none;
+   font-size: 14px;
+   text-transform: uppercase;
+   vertical-align: top;
+   margin: 0 auto;
 
-    &:after {
-        position: absolute;
-        bottom: 0;
-        left: 0;
+   background-color: var(--accent-btn-color);
+   background-image: linear-gradient(
+      270deg,
+      rgba(100, 181, 239, 0) 48.44%,
+      #64b5ef 75.52%,
+      rgba(100, 181, 239, 0) 100%
+   );
+   background-repeat: no-repeat;
+   animation: bg-move linear 5s infinite;
 
-        width: 0;
-
-        content: '';
-        transition: .4s;
-
-        border-bottom: .05em solid currentColor;
-    }
+   &:hover {
+      background-color: var(--accent-color-hover);
+   }
 }

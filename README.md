@@ -1,11 +1,12 @@
-# Аналог t.me через github pages
+# Аналог t.me через GitHub Pages 
 
-Просто замените https://t.me/ на https://tgrm.github.io/
+Просто замените https://t.me/ на https://tme.github.io/
 
-Должно получиться что-то в стиле https://tgrm.github.io/taraflex
+Должно получиться что-то в стиле https://tme.github.io/rkn_tg
 
 ## Преимущества
 
-  - Без рекламы
-  - Без трекеров
-  - Открытые исходники https://github.com/tgrm/tgrm.github.io с возможностью поднять сервис на своем сервере
+  - Рабоает
+  - Нет рекламы
+  - Нет трекеров
+  - Открытые исходники https://github.com/tgrm/tgrm.github.io с возможностью поднять сервис на своём сервере

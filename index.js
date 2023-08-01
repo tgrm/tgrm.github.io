@@ -6,13 +6,13 @@ var label = [location.hash, location.pathname].map(function (v) {
         .replace(/^(t\.me)?\/*/i, '');
 }).filter(Boolean)[0];
 if (label) {
-    document.getElementById('label').textContent = 't.me/' + label;
+    document.getElementById('linkName').textContent = 't.me/' + label;
 
     /** @type {HTMLAnchorElement} */
     var link;
     //@ts-ignore
-    link = document.getElementById('wrapper');
-    link.href = 'http://t.me/' + label
+    link = document.getElementById('linkURL');
+    link.href = 'https://t.me/' + label
     var path = link.pathname.split('/', 3);
     var str = '';
 
