@@ -10,7 +10,7 @@
     $u3: unit($min-font-size);
     $u4: unit($max-font-size);
 
-    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    @if $u1 ==$u2 and $u1 ==$u3 and $u1 ==$u4 {
         & {
             font-size: $min-font-size;
 
@@ -57,7 +57,7 @@ body {
 }
 
 #label {
-    font-family: Ubuntu,Optima,Trebuchet MS,-apple-system,BlinkMacSystemFont,sans-serif;
+    font-family: Ubuntu, Optima, Trebuchet MS, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1em;
 
     position: relative;
@@ -78,6 +78,6 @@ body {
         content: '';
         transition: .4s;
 
-        border-bottom: .05em solid currentColor;
+        border-bottom: .05em solid;
     }
 }

@@ -1,4 +1,5 @@
 node_modules
 *.lock
 *-lock.json
-dist
+*-lock.yaml
+*.js
