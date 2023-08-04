@@ -67,15 +67,20 @@ function transform(search: SearchParams, pathParts: string[]) {
             if (type[0] === '+') {
                 search.phone = type.replace(/^\++/, '');
             } else {
-                if (search.startapp) {
-                    search.appname = values[0];
-                } else if (values.length > 1) {
-                    search.thread = values[0];
-                    search.post = values[1];
-                } else if (values.length) {
-                    search.post = values[0];
+                if (v) {
+                    values.unshift(v);
+                    if (values.every(isFinite as any)) {
+                        if (values.length > 1) {
+                            search.thread = values[0];
+                            search.post = values[1];
+                        } else {
+                            search.post = v;
+                        }
+                    } else {
+                        search.appname = v;
+                    }
                 }
-                search.domain = v;
+                search.domain = type;
             }
             return 'tg://resolve' + search;
     }
@@ -91,10 +96,10 @@ let label = [location.hash, location.pathname]
     .filter(Boolean)[0];
 
 if (label) {
-    label = location.origin + '/' + label;
+    label = location.origin.slice(location.protocol.length + 2) + '/' + label;
     document.getElementById('label').textContent = label;
     let link = document.getElementById('wrapper') as HTMLAnchorElement;
-    link.href = label;
+    link.href = location.protocol + '//' + label;
 
     const u = transform(new SearchParams(link.search), link.pathname.slice(1).split('/', 4));
     link.href = u;
