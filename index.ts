@@ -69,7 +69,7 @@ function transform(search: SearchParams, pathParts: string[]) {
             } else {
                 if (v) {
                     values.unshift(v);
-                    if (values.every(isFinite as any)) {
+                    if (values.every(s => /^[1-9]+[0-9]*$/.test(s))) {
                         if (values.length > 1) {
                             search.thread = values[0];
                             search.post = values[1];
