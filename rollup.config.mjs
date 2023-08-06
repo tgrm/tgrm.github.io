@@ -12,7 +12,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const favicon = readFileSync('./tg.png').toString('base64');
 const template = (style, script) =>
-    `<html><head><meta charset="UTF-8"><link rel="icon" type="image/png" href="data:image/png;base64,${favicon}"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex,nofollow"><style>${style}</style></head><body><a id="wrapper" href="#"><span id="label"></span></a><script>${script}</script></body></html>`;
+    `<html><head><meta charset="UTF-8"><link rel="icon" type="image/png" href="data:image/png;base64,${favicon}"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>${style}</style></head><body><a id="w" href="#"><span id="l"></span></a><script>${script}</script></body></html>`;
 
 let style = '';
 

@@ -1,6 +1,11 @@
 import './index.scss';
 import SearchParams from '@taraflex/silly-query-string';
 
+const hex = (s: string) => {
+    const a = (s || '').toLowerCase().split(/(?:[~-])/);
+    return a.every(c => /^[0-9a-f]{6}$/.test(c)) ? a : null;
+};
+
 function transform(search: SearchParams, pathParts: string[]) {
     let [type, v, ...values] = pathParts;
     // https://core.telegram.org/api/links
@@ -14,10 +19,51 @@ function transform(search: SearchParams, pathParts: string[]) {
     // https://core.telegram.org/api/links#id-links
     // https://core.telegram.org/api/links#emoji-links
 
+    const colors = hex(v) || hex(search.bg_color) || ['dbddbb', '6ba587', 'd5d88d', '88b884'];
+    switch (colors.length) {
+        case 1:
+            document.body.style.background = '#' + (search.color = colors[0]);
+            break;
+        case 2:
+            document.body.style.background =
+                'linear-gradient(' + (search.rotation | 0) + 'deg, #' + colors.join(',#') + ')';
+            break;
+        case 3:
+        case 4:
+            const n = (v: number) => v * Math.abs(v * 100 - ((Math.random() * 25) | 0));
+            const u = colors[1];
+            colors[1] = colors[2];
+            colors[2] = u;
+            document.body.style.background =
+                colors
+                    .map(function (c, i) {
+                        const t = 8;
+                        const s = ((t - i) * (100 / t)) | 0;
+                        return (
+                            'radial-gradient(' +
+                            s +
+                            '% ' +
+                            s +
+                            '% at ' +
+                            n(i % 2) +
+                            '% ' +
+                            n(i % 3 ? 1 : 0) +
+                            '%, #' +
+                            c +
+                            ' 20%, transparent)'
+                        );
+                    })
+                    .join(',') +
+                ', linear-gradient(to bottom right, #' +
+                colors.slice(0, 2).join(', #') +
+                ')';
+            break;
+    }
+
     if (type[0] === '$') {
         v = type.slice(1);
         type = 'invoice';
-    } else if (type[0] === '+' && !/^\+[0-9\(\)\-\s]+$/i.test(type) /*phone*/) {
+    } else if (type[0] === '+' && !/^\+[0-9\(\)\-\s]+$/i.test(type) /*not phone*/) {
         v = type.slice(1);
         type = 'joinchat';
     }
@@ -38,16 +84,13 @@ function transform(search: SearchParams, pathParts: string[]) {
         case 'proxy':
         case 'confirmphone':
             return 'tg://' + type + search;
+        case 'bg':
+            search.gradient = colors.join(colors.length === 2 ? '-' : '~');
         case 'addlist':
         case 'addtheme':
-        case 'bg':
         case 'invoice':
             search.slug = v;
             return 'tg://' + type + search;
-        //todo preview bg as page background
-        //todo https://core.telegram.org/api/links#solid-fill-wallpapers
-        //todo https://core.telegram.org/api/links#gradient-fill-wallpapers
-        //todo https://core.telegram.org/api/links#freeform-gradient-fill-wallpapers
         case 'login':
             search.code = v;
             return 'tg://login' + search;
@@ -97,14 +140,12 @@ let label = [location.hash, location.pathname]
 
 if (label) {
     label = location.origin.slice(location.protocol.length + 2) + '/' + label;
-    document.getElementById('label').textContent = label;
-    let link = document.getElementById('wrapper') as HTMLAnchorElement;
+    document.getElementById('l').textContent = label;
+    let link = document.getElementById('w') as HTMLAnchorElement;
     link.href = location.protocol + '//' + label;
 
     const u = transform(new SearchParams(link.search), link.pathname.slice(1).split('/', 4));
     link.href = u;
-    link.style.display = 'inline-block';
     location.href = u;
-} else {
-    //todo empty page must display field for transform t.me links
 }
+//todo empty page must display field for transform t.me links [ + button to patch link in clipboard (ignore domain) ]

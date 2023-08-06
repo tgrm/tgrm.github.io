@@ -1,4 +1,8 @@
-@import 'normalize.css';
+html {
+    line-height: 1.15;
+
+    -webkit-text-size-adjust: 100%;
+}
 
 @function strip-unit($value) {
     @return $value / ($value * 0 + 1);
@@ -33,17 +37,14 @@ body {
     @include fluid-type(240px, 960px, 12px, 12px * 3.5);
 
     min-height: 100%;
-
-    background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+    margin: 0;
 }
 
-#wrapper {
+#w {
     position: absolute;
     top: 50%;
     left: 50%;
-
-    display: none;
-
+    border-radius: 0.5em;
     padding: 1em;
 
     transform: translate(-50%, -50%);
@@ -51,22 +52,20 @@ body {
 
     background-color: white;
 
-    &:hover #label:after {
+    &:hover #l:after {
         width: 100%;
     }
 }
 
-#label {
+#l {
     font-family: Ubuntu, Optima, Trebuchet MS, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1em;
 
     position: relative;
 
-    box-sizing: border-box;
-
     text-align: center;
 
-    color: #fd868c;
+    color: black;
 
     &:after {
         position: absolute;
