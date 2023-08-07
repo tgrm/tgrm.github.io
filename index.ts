@@ -130,24 +130,25 @@ const transform = (search: SearchParams, pathParts: string[]) => {
     }
 };
 
-let label = [location.hash, location.pathname]
-    .map(v =>
-        v
-            .slice(1)
-            .replace(/^(https?:)?\/*/i, '')
-            .replace(/^(t\.me)?\/*/i, '')
-    )
-    .filter(Boolean)[0];
+let label =
+    location.origin.slice(location.protocol.length + 2) +
+    '/' +
+    [location.hash, location.pathname + location.search]
+        .map(v =>
+            v
+                .slice(1)
+                .replace(/^(https?:)?\/*/i, '')
+                .replace(/^(t\.me)?\/*/i, '')
+        )
+        .filter(Boolean)[0];
 
-if (label) {
-    label = location.origin.slice(location.protocol.length + 2) + '/' + label;
-    document.getElementById('l').textContent = label;
-    let link = document.getElementById('w') as HTMLAnchorElement;
-    link.href = location.protocol + '//' + label;
+document.getElementById('l').textContent = label;
+let link = document.getElementById('w') as HTMLAnchorElement;
+link.href = location.protocol + '//' + label;
 
-    const u = transform(new SearchParams(link.search), link.pathname.slice(1).split('/', 4));
-    link.href = u;
-    location.href = u;
-}
+const u = transform(new SearchParams(link.search), link.pathname.slice(1).split('/', 4));
+link.href = u;
+location.href = u;
+
 //todo fix favicon in chrome
 //todo empty page must display field for transform t.me links [ + button to patch link in clipboard (ignore domain) ]
