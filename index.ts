@@ -6,7 +6,7 @@ const hex = (s: string) => {
     return a.every(c => /^[0-9a-f]{6}$/.test(c)) ? a : null;
 };
 
-function transform(search: SearchParams, pathParts: string[]) {
+const transform = (search: SearchParams, pathParts: string[]) => {
     let [type, v, ...values] = pathParts;
     // https://core.telegram.org/api/links
     // https://github.com/zevlg/telega.el/blob/master/telega-tme.el#L276
@@ -22,7 +22,7 @@ function transform(search: SearchParams, pathParts: string[]) {
     const colors = hex(v) || hex(search.bg_color) || ['dbddbb', '6ba587', 'd5d88d', '88b884'];
     switch (colors.length) {
         case 1:
-            document.body.style.background = '#' + (search.color = colors[0]);
+            document.body.style.background = '#' + (search.bg_color = search.color = colors[0]);
             break;
         case 2:
             document.body.style.background =
@@ -31,23 +31,20 @@ function transform(search: SearchParams, pathParts: string[]) {
         case 3:
         case 4:
             const n = (v: number) => v * Math.abs(v * 100 - ((Math.random() * 25) | 0));
-            const u = colors[1];
-            colors[1] = colors[2];
-            colors[2] = u;
             document.body.style.background =
                 colors
-                    .map(function (c, i) {
-                        const t = 8;
-                        const s = ((t - i) * (100 / t)) | 0;
+                    .map((c, i) => {
+                        const T = 8;
+                        const S = ((T - i) * (100 / T)) | 0;
                         return (
                             'radial-gradient(' +
-                            s +
+                            S +
                             '% ' +
-                            s +
+                            S +
                             '% at ' +
-                            n(i % 2) +
+                            n((i + (i < 2 ? 1 : 0)) % 2) +
                             '% ' +
-                            n(i % 3 ? 1 : 0) +
+                            n(i < 2 ? 1 : 0) +
                             '%, #' +
                             c +
                             ' 20%, transparent)'
@@ -55,7 +52,9 @@ function transform(search: SearchParams, pathParts: string[]) {
                     })
                     .join(',') +
                 ', linear-gradient(to bottom right, #' +
-                colors.slice(0, 2).join(', #') +
+                colors[2] +
+                ', #' +
+                colors[0] +
                 ')';
             break;
     }
@@ -85,7 +84,9 @@ function transform(search: SearchParams, pathParts: string[]) {
         case 'confirmphone':
             return 'tg://' + type + search;
         case 'bg':
-            search.gradient = colors.join(colors.length === 2 ? '-' : '~');
+            if (colors.length > 1) {
+                search.bg_color = search.gradient = colors.join(colors.length === 2 ? '-' : '~');
+            }
         case 'addlist':
         case 'addtheme':
         case 'invoice':
@@ -127,7 +128,7 @@ function transform(search: SearchParams, pathParts: string[]) {
             }
             return 'tg://resolve' + search;
     }
-}
+};
 
 let label = [location.hash, location.pathname]
     .map(v =>
@@ -148,4 +149,5 @@ if (label) {
     link.href = u;
     location.href = u;
 }
+//todo fix favicon in chrome
 //todo empty page must display field for transform t.me links [ + button to patch link in clipboard (ignore domain) ]
